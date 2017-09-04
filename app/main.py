@@ -1,9 +1,12 @@
 from flask import Flask, request
-from util import classify_review
+from util import Classification
+import os
 
 app = Flask(__name__)
 
 REVIEW_PARAM='review'
+
+classification = Classification(os.environ['MODEL'])
 
 # TO DO: all routes might start with /api/v0
 
@@ -12,10 +15,10 @@ def classify():
 
     if request.method == 'GET':
         review = request.args.get(REVIEW_PARAM)
-        return classify_review(review)
+        return classification.classify_review(review)
     elif request.is_json:
         review = request.get_json()[REVIEW_PARAM]
-        return classify_review(review)
+        return classification.classify_review(review)
     else:
         # TO DO: throw a more officious / detailed exception
         return "bad request"

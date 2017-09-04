@@ -1,15 +1,11 @@
-import os
-import subprocess
+from pyfasttext import FastText
 
-FAST_TEXT = os.environ['FASTTEXT']
-MODEL = os.environ['MODEL']
+class Classification:
 
-def classify_review(review_text):
-    return call_fasttext(review_text)
+    def __init__(self, model_path):
+        fasttext = FastText()
+        self.model = fasttext.load_model(model_path)
 
-def call_fasttext(review_text):
-    print(review_text)
-    bashCommand = FAST_TEXT + " test  --model " + MODEL 
-    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
-    return output
+
+    def classify_review(self, review_text):
+        return self.model.predict_proba_single(review_text, k=1)[0]
