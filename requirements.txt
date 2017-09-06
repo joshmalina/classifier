@@ -1,5 +1,0 @@
-Flask==0.11.1
-numpy==1.6.1
-Cython==0.26.1
-pyfasttext==0.3.0
-
